@@ -1,0 +1,26 @@
+buildscript {
+    // add Maven Central repository
+    repositories {
+        mavenCentral()
+    }
+    // add Cayenne Gradle Plugin
+    dependencies {
+        classpath group: 'org.apache.cayenne.plugins', name: 'cayenne-gradle-plugin', version: '4.1'
+    }
+}
+
+plugins {
+    id 'wharf.studio.hello.java-library-conventions'
+}
+
+// apply plugin
+apply plugin: 'org.apache.cayenne'
+
+// set default DataMap
+cayenne.defaultDataMap 'datamap.map.xml'
+
+// add Cayenne dependencies to your project
+dependencies {
+    // this is a shortcut for 'org.apache.cayenne:cayenne-server:VERSION_OF_PLUGIN'
+    implementation cayenne.dependency('server')
+}
