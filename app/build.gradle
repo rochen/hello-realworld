@@ -1,9 +1,7 @@
 plugins {
-    id 'wharf.studio.hello.java-application-conventions'
-
-    id 'org.springframework.boot' version '2.4.3'
-	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
+	id 'org.springframework.boot' version '2.5.1'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 }
 
 configurations {
@@ -12,30 +10,28 @@ configurations {
 	}
 }
 
-repositories {
-	mavenCentral()
-
-	maven {
-		url 'https://repo.softmotions.com/repository/softmotions-public'
-	}
-}
-
 dependencies {
-    implementation project(':cayenne')
+    implementation project(':jooq')
 
-    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+	implementation 'org.springframework.boot:spring-boot-starter-jooq'    
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
-	//implementation 'org.springframework.boot:spring-boot-starter-web'
-
-	implementation 'softmotions:spring-boot-starter-cayenne:1.0-SNAPSHOT'
-	implementation 'org.apache.cayenne:cayenne-server:4.1'
-
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-security'	
+    
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.0'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.0', 'io.jsonwebtoken:jjwt-jackson:0.11.0'
+		
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 
+	implementation 'org.mapstruct:mapstruct:1.4.2.Final'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
+
 	runtimeOnly 'com.h2database:h2'
 
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
 }
 
 test {

@@ -1,0 +1,58 @@
+plugins {
+    id 'java-library'
+	id 'org.springframework.boot' version '2.5.1'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'nu.studer.jooq' version '5.2.1'
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-jooq'    
+	jooqGenerator 'com.h2database:h2','travelhub:jooq-plural-to-singular-naming:1.0-SNAPSHOT','org.jooq:jooq-meta-extensions:3.14.12'
+}
+
+jooq {
+    version = '3.14.7'  // default (can be omitted)
+    edition = nu.studer.gradle.jooq.JooqEdition.OSS  // default (can be omitted)
+
+    configurations {
+        main {  // name of the jOOQ configuration
+            generateSchemaSourceOnCompilation = true  // default (can be omitted)
+
+            generationTool {
+                logging = org.jooq.meta.jaxb.Logging.WARN
+                generator {
+                    name = 'org.jooq.codegen.DefaultGenerator'
+                    database {
+                        name = 'org.jooq.meta.extensions.ddl.DDLDatabase'
+                        properties {
+                            property {
+                                key = 'scripts'
+                                value = 'src/main/resources/schema.sql'
+                            }
+                        }                     
+                    }
+                    generate {
+                        deprecated = true
+                        records = true
+                        pojos = true
+                        fluentSetters = true
+						jpaAnnotations = false
+                    }
+                    target {
+                        packageName = 'com.studio.asylum.db'
+                        //directory = 'src/main/java'  // default (can be omitted)
+                    }
+                    strategy.name = 'org.travelhub.jooq.plugins.naming.PluralToSingularNamingStrategy'
+                }
+            }
+        }
+    }
+}
+
+tasks.named('generateJooq').configure { allInputsDeclared = true }
