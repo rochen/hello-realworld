@@ -5,13 +5,13 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.studio.asylum.api.data.UserData;
+import com.studio.asylum.api.query.GetCurrentUser;
+import com.studio.asylum.api.query.GetCurrentUserResult;
+import com.studio.asylum.api.query.QueryHandler;
 import com.studio.asylum.db.tables.pojos.User;
 
-import wharf.studio.realworld.data.UserData;
 import wharf.studio.realworld.mapper.UserMapper;
-import wharf.studio.realworld.query.GetCurrentUser;
-import wharf.studio.realworld.query.GetCurrentUserResult;
-import wharf.studio.realworld.query.QueryHandler;
 import wharf.studio.realworld.repository.UserRepository;
 
 @Component

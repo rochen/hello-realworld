@@ -2,11 +2,14 @@ package wharf.studio.realworld.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
-import wharf.studio.realworld.command.Command;
-import wharf.studio.realworld.command.CommandHandler;
-import wharf.studio.realworld.query.Query;
-import wharf.studio.realworld.query.QueryHandler;
+import com.studio.asylum.api.command.Command;
+import com.studio.asylum.api.command.CommandHandler;
+import com.studio.asylum.api.query.Query;
+import com.studio.asylum.api.query.QueryHandler;
+
 
 public abstract class AbstractController {
 	
@@ -24,7 +27,7 @@ public abstract class AbstractController {
 	
 	
 	@SuppressWarnings("unchecked")
-	public <R, C extends Command<R>> R executeCommand(C command) {
+	protected <R, C extends Command<R>> R executeCommand(C command) {
 		String commandName = command.getClass().getSimpleName();
 		String handlerName = resolveHandlerName(commandName);
 		CommandHandler<R, C> commandHandler = (CommandHandler<R, C>) app.getBean(handlerName);	
@@ -33,11 +36,16 @@ public abstract class AbstractController {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public <R, Q extends Query<R>> R performQuery(Q query) {
+	protected <R, Q extends Query<R>> R performQuery(Q query) {
 		String queryName = query.getClass().getSimpleName();
 		String handlerName = resolveHandlerName(queryName);
 		QueryHandler<R, Q> queryHandler = (QueryHandler<R, Q>) app.getBean(handlerName);	
 		R result = queryHandler.handle(query);
 		return result;
+	}
+	
+	protected Authentication getAuthentication() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		return authentication;
 	}
 }

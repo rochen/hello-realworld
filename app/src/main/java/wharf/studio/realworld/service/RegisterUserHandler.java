@@ -3,12 +3,12 @@ package wharf.studio.realworld.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.studio.asylum.api.command.CommandHandler;
+import com.studio.asylum.api.command.RegisterUser;
+import com.studio.asylum.api.command.RegisterUserResult;
+import com.studio.asylum.api.data.UserData;
 import com.studio.asylum.db.tables.pojos.User;
 
-import wharf.studio.realworld.command.CommandHandler;
-import wharf.studio.realworld.command.RegisterUser;
-import wharf.studio.realworld.command.RegisterUserResult;
-import wharf.studio.realworld.data.UserData;
 import wharf.studio.realworld.exception.InvalidException;
 import wharf.studio.realworld.mapper.UserMapper;
 import wharf.studio.realworld.repository.UserRepository;

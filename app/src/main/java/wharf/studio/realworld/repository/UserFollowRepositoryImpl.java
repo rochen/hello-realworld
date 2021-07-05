@@ -30,5 +30,34 @@ public class UserFollowRepositoryImpl implements UserFollowRepository {
 			.set(record)
 			.execute();        
     }
+
+
+	@Override
+	public boolean exist(UserFollow userFollow) {
+		UserFollowsRecord record = mapper.pojo2record(userFollow);
+		
+		Integer userId = record.getUserId();
+		Integer fanId = record.getFanId();
+		
+		boolean exists = jooq.fetchExists(USER_FOLLOWS, 
+							USER_FOLLOWS.USER_ID.eq(userId), 
+							USER_FOLLOWS.FAN_ID.eq(fanId));
+		return exists;
+	}
+
+
+	@Override
+	@Transactional
+	public void delete(UserFollow userFollow) {
+		UserFollowsRecord record = mapper.pojo2record(userFollow);
+		
+		Integer userId = record.getUserId();
+		Integer fanId = record.getFanId();
+		
+		jooq.deleteFrom(USER_FOLLOWS).
+				where(USER_FOLLOWS.USER_ID.eq(userId), 
+					  USER_FOLLOWS.FAN_ID.eq(fanId)).
+				execute();		
+	}
     
 }

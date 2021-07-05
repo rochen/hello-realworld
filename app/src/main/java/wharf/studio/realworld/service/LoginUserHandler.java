@@ -5,12 +5,12 @@ import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.studio.asylum.api.command.CommandHandler;
+import com.studio.asylum.api.command.LoginUser;
+import com.studio.asylum.api.command.LoginUserResult;
+import com.studio.asylum.api.data.UserData;
 import com.studio.asylum.db.tables.pojos.User;
 
-import wharf.studio.realworld.command.CommandHandler;
-import wharf.studio.realworld.command.LoginUser;
-import wharf.studio.realworld.command.LoginUserResult;
-import wharf.studio.realworld.data.UserData;
 import wharf.studio.realworld.exception.NotFoundException;
 import wharf.studio.realworld.exception.UnauthorizedException;
 import wharf.studio.realworld.mapper.UserMapper;

@@ -3,11 +3,10 @@ package wharf.studio.realworld.mapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import com.studio.asylum.api.data.ProfileData;
 import com.studio.asylum.db.tables.pojos.User;
 import com.studio.asylum.db.tables.pojos.UserFollow;
 import com.studio.asylum.db.tables.records.UserFollowsRecord;
-
-import wharf.studio.realworld.data.ProfileData;
 
 @Mapper(componentModel = "spring")
 public abstract class ProfileMapper {

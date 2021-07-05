@@ -3,13 +3,13 @@ package wharf.studio.realworld.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.studio.asylum.api.command.CommandHandler;
+import com.studio.asylum.api.command.FollowProfile;
+import com.studio.asylum.api.command.FollowProfileResult;
+import com.studio.asylum.api.data.ProfileData;
 import com.studio.asylum.db.tables.pojos.User;
 import com.studio.asylum.db.tables.pojos.UserFollow;
 
-import wharf.studio.realworld.command.CommandHandler;
-import wharf.studio.realworld.command.FollowProfile;
-import wharf.studio.realworld.command.FollowProfileResult;
-import wharf.studio.realworld.data.ProfileData;
 import wharf.studio.realworld.exception.InvalidException;
 import wharf.studio.realworld.exception.NotFoundException;
 import wharf.studio.realworld.mapper.ProfileMapper;

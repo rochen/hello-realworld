@@ -8,4 +8,4 @@
  */
 
 rootProject.name = 'hello-realworld'
-include('app', 'jooq')
+include('app', 'jooq', 'spec')

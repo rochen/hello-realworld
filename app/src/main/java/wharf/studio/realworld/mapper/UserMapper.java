@@ -8,12 +8,12 @@ import org.mapstruct.Named;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.studio.asylum.api.command.RegisterUser;
+import com.studio.asylum.api.command.UpdateUser;
+import com.studio.asylum.api.data.UserData;
 import com.studio.asylum.db.tables.pojos.User;
 import com.studio.asylum.db.tables.records.UsersRecord;
 
-import wharf.studio.realworld.command.RegisterUser;
-import wharf.studio.realworld.command.UpdateUser;
-import wharf.studio.realworld.data.UserData;
 import wharf.studio.realworld.security.SecurityService;
 
 @Mapper(componentModel = "spring")

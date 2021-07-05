@@ -2,43 +2,37 @@ package wharf.studio.realworld.api;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import wharf.studio.realworld.command.FollowProfile;
-import wharf.studio.realworld.command.FollowProfileResult;
-import wharf.studio.realworld.query.GetProfile;
-import wharf.studio.realworld.query.GetProfileResult;
+import com.studio.asylum.api.command.FollowProfile;
+import com.studio.asylum.api.command.FollowProfileResult;
+import com.studio.asylum.api.command.UnfollowProfile;
+import com.studio.asylum.api.command.UnfollowProfileResult;
+import com.studio.asylum.api.operation.ProfileOperations;
+import com.studio.asylum.api.query.GetProfile;
+import com.studio.asylum.api.query.GetProfileResult;
 
 @RestController
-@RequestMapping(path = "profiles/{username}")
-public class ProfileApi extends AbstractController {
+public class ProfileApi extends AbstractController implements ProfileOperations {
 	
 			
-	@PostMapping (path = "follow")
-	public ResponseEntity<FollowProfileResult> follow(@AuthenticationPrincipal UserDetails userDetails,
-													  @PathVariable("username") String username) {
-
-		String fansname = userDetails.getUsername();
+	public ResponseEntity<FollowProfileResult> follow(@PathVariable("username") String username) {
+		String currentUsername = getAuthentication().getName();
+		
 		FollowProfile followProfile = FollowProfile.builder()
 										.username(username)
-										.fansname(fansname)
+										.fansname(currentUsername)
 										.build();
 		
 		FollowProfileResult result = executeCommand(followProfile);	  
 	    return ResponseEntity.status(HttpStatus.CREATED).body(result);
 	}
 	
-	@GetMapping
-	public ResponseEntity<GetProfileResult> getProfile(@AuthenticationPrincipal UserDetails userDetails,
-													  @PathVariable("username") String username) {
-
-		String currentUsername = userDetails == null? null: userDetails.getUsername();
+	public ResponseEntity<GetProfileResult> findByUsername(@PathVariable("username") String username) {
+		// get anonymousName if not login
+		String currentUsername = getAuthentication().getName();
+		
 		GetProfile getProfile = GetProfile.builder()
 										  .username(username)
 										  .currentUsername(currentUsername)
@@ -46,6 +40,19 @@ public class ProfileApi extends AbstractController {
 										
 		GetProfileResult result = performQuery(getProfile);	  
 	    return ResponseEntity.status(HttpStatus.OK).body(result);
+	}
+
+	@Override
+	public ResponseEntity<UnfollowProfileResult> unfollow(String username) {
+		String currentUsername = getAuthentication().getName();
+		
+		UnfollowProfile unfollowProfile = UnfollowProfile.builder()
+										.username(username)
+										.fansname(currentUsername)
+										.build();
+		
+		UnfollowProfileResult result = executeCommand(unfollowProfile);	  
+	    return ResponseEntity.status(HttpStatus.ACCEPTED).body(result);
 	}
 	
 
